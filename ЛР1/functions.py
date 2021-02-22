@@ -36,12 +36,20 @@ def input_depot():
 
 
 def save_json(name):
-    if os.path.exists(os.path.curdir + f'\{name}'):
-        data = json.load(open(name))
-        lst = data
-        os.remove(name)
     input_depot()
-    json.dump(lst, open(name, 'x'))
+    with open(name, 'w') as out:
+        json.dump(lst, out)
+    lst.clear()
+
+
+def save_csv(name):
+    input_depot()
+    with open(name, 'w') as out:
+        w = csv.DictWriter(out, lst[0].keys())
+        w.writeheader()
+        for l in lst:
+            w.writerow(l)
+
 
 def load_json(name):
     with open(name, 'r') as read:
